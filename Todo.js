@@ -9,23 +9,64 @@ export default class Todo extends Component {
     isCompleted: false
   }
   render() {
-    const {isCompleted} = this.state
+    const {isCompleted, isEditing} = this.state
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={this._toggleComplete}>
-          <View style={[
-            styles.circle,
-            isCompleted ? styles.completedCircle : styles.uncompletedCircle
-          ]} />
-        </TouchableOpacity>
-        <Text style={styles.text}>Hello</Text>
-      </View>
+        <View style={styles.column}>
+          <TouchableOpacity onPress={this._toggleComplete}>
+            <View style={[
+              styles.circle,
+              isCompleted ? styles.completedCircle : styles.uncompletedCircle
+            ]} />
+          </TouchableOpacity>
+          <Text style={[
+              styles.text,
+              isCompleted ? styles.completedText : styles.uncompletedText
+            ]}>Hello</Text>
+        </View>
+          {isEditing ? (
+            <View style={styles.action}>
+              <TouchableOpacity onPressOut={this._finishEditing}>
+                <View style={styles.actionContainer}>
+                  <Text style={styles.actionText}>Check</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View style={styles.actions}>
+              <TouchableOpacity onPressOut={this._startEditing}>
+                <View style={styles.actionContainer}>
+                  <Text style={styles.actionText}>Edit</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <View style={styles.actionContainer}>
+                  <Text style={styles.actionText}>Delete</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
     )
   }
   _toggleComplete= () => {
     this.setState(prevState => {
       return ({
         isCompleted: !prevState.isCompleted
+      })
+    })
+  }
+  _startEditing= ()=>{
+    this.setState(prevState => {
+      return ({
+        isEditing: true
+      })
+    })
+  }
+  _finishEditing= ()=>{
+    this.setState(prevState => {
+      return ({
+        isEditing: false
       })
     })
   }
@@ -37,7 +78,8 @@ const styles = StyleSheet.create({
     borderBottomColor: "#bbb",
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-between'
   },
   circle: {
     width:30,
@@ -56,5 +98,25 @@ const styles = StyleSheet.create({
   },
   uncompletedCircle: {
     borderColor: 'red'
+  },
+  completedText: {
+    color: '#bbb',
+    textDecorationLine: 'line-through'
+  },
+  uncompletedText: {
+    color: 'black'
+  },
+  column: {
+    flexDirection: "row",
+    alignItems: 'center',
+    // width: width/2,
+    justifyContent: 'space-between'
+  },
+  actions: {
+    flexDirection: 'row'
+  },
+  actionContainer: {
+    marginVertical: 10,
+    marginHorizontal: 10
   }
 })
