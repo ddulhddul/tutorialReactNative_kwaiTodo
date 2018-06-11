@@ -4,6 +4,13 @@ import { Dimensions, View, Text, TextInput, TouchableOpacity, StyleSheet} from '
 const {width, height} = Dimensions.get("window")
 
 export default class Todo extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      isEditing : false,
+      toDoValue : props.text
+    }
+  }
   state = {
     isEditing: false,
     isCompleted: false,
@@ -73,8 +80,7 @@ export default class Todo extends Component {
     const {text} = this.props;
     this.setState(prevState => {
       return ({
-        isEditing: true,
-        toDoValue: text
+        isEditing: true
       })
     })
   }
