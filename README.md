@@ -8,6 +8,8 @@
 $ npm install -g create-react-native-app
 $ create-react-native-app reactNativeTodo
 $ npm run android
+$ npm install uuid --save
+
 
 $ npm install exp --global
 $ exp init my-new-project
